@@ -12,6 +12,7 @@ import com.topjohnwu.magisk.R
 import com.topjohnwu.magisk.core.Config
 import com.topjohnwu.magisk.core.Const
 import com.topjohnwu.magisk.core.Info
+import com.topjohnwu.magisk.core.di.ServiceLocator
 import com.topjohnwu.magisk.core.ktx.activity
 import com.topjohnwu.magisk.core.tasks.HideAPK
 import com.topjohnwu.magisk.core.utils.MediaStoreUtils
@@ -264,16 +265,13 @@ object Tapjack : BaseSettingsItem.Toggle() {
     override var value by Config::suTapjack
 }
 
-object Authentication : BaseSettingsItem.Toggle() {
+object Authentication : BaseSettingsItem.Selector() {
     override val title = R.string.settings_su_auth_title.asText()
-    override var description = R.string.settings_su_auth_summary.asText()
-    override var value by Config::userAuth
+    override val entryRes = R.array.su_biometric
+    override var value by Config::suBiometric
 
     override fun refresh() {
         isEnabled = Info.isDeviceSecure
-        if (!isEnabled) {
-            description = R.string.settings_su_auth_insecure.asText()
-        }
     }
 }
 
